@@ -11,7 +11,7 @@
 
 <meta name="author" content="Gabriel Santos" />
 
-<meta name="date" content="2022-09-14" />
+<meta name="date" content="2022-09-22" />
 
 <title>DATA607_project01</title>
 
@@ -365,13 +365,17 @@ pre code {
 
 <h1 class="title toc-ignore">DATA607_project01</h1>
 <h4 class="author">Gabriel Santos</h4>
-<h4 class="date">2022-09-14</h4>
+<h4 class="date">2022-09-22</h4>
 
 </div>
 
 
-<p>###Project description The project description can be found on <a href="https://https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/Project%201.pdf">github.com.</a></p>
-<p>###Environment setup</p>
+<div id="project-description" class="section level3">
+<h3>Project description</h3>
+<p>(<a href="https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/Project%201.pdf" class="uri">https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/Project%201.pdf</a>)</p>
+</div>
+<div id="environment-setup" class="section level3">
+<h3>Environment setup</h3>
 <pre class="r"><code>#Loading packages
 library(stringr)
 library(knitr)
@@ -385,8 +389,10 @@ library(dplyr)</code></pre>
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(readr)</code></pre>
-<p>###Importing data</p>
-<pre class="r"><code>#Reading the dataset from github
+</div>
+<div id="importing-data" class="section level3">
+<h3>Importing data</h3>
+<pre class="r"><code>#Reading the dataset
 chessText &lt;- read.csv(paste0(&quot;https://raw.githubusercontent.com/GabrielSantos33/DATA607_Project_01-/main/tournamentinfo_uncleaned.txt&quot;))
 head(chessText)</code></pre>
 <pre><code>##   X.........................................................................................
@@ -396,7 +402,9 @@ head(chessText)</code></pre>
 ## 4      1 | GARY HUA                        |6.0  |W  39|W  21|W  18|W  14|W   7|D  12|D   4|
 ## 5     ON | 15445895 / R: 1794   -&gt;1817     |N:2  |W    |B    |W    |B    |W    |B    |W    |
 ## 6  -----------------------------------------------------------------------------------------</code></pre>
-<p>###Cleaning data</p>
+</div>
+<div id="cleaning-data" class="section level3">
+<h3>Cleaning data</h3>
 <pre class="r"><code>#Removing the column header
 cleanData &lt;-chessText[-c(1:2),]</code></pre>
 <pre class="r"><code>#Subsetting player info
@@ -411,8 +419,10 @@ head(rating,3)</code></pre>
 <pre><code>## [1] &quot;   ON | 15445895 / R: 1794   -&gt;1817     |N:2  |W    |B    |W    |B    |W    |B    |W    |&quot;
 ## [2] &quot;   MI | 14598900 / R: 1553   -&gt;1663     |N:2  |B    |W    |B    |W    |B    |W    |B    |&quot;
 ## [3] &quot;   MI | 14959604 / R: 1384   -&gt;1640     |N:2  |W    |B    |W    |B    |W    |B    |W    |&quot;</code></pre>
-<p>###Relevant data extraction</p>
-<pre class="r"><code>#Applying data transformation
+</div>
+<div id="relevant-data-extraction" class="section level3">
+<h3>Relevant data extraction</h3>
+<pre class="r"><code>#Applying data-transformation
 playerId &lt;- c(1:64)
 playerName &lt;- str_trim(str_extract(name, &quot;(\\w+\\s){2,3}&quot;))
 totalPoint &lt;- as.numeric(str_extract(name, &quot;\\d.\\d&quot;))
@@ -421,14 +431,18 @@ playerState &lt;- str_extract(rating, &quot;\\w\\w&quot;)
 opponentId &lt;- str_extract_all(str_extract_all(name, &quot;\\d+\\|&quot;), &quot;\\d+&quot;)</code></pre>
 <pre><code>## Warning in stri_extract_all_regex(string, pattern, simplify = simplify, :
 ## argument is not an atomic vector; coercing</code></pre>
-<p>###Average of pre-tournament opponents’ ratings</p>
-<pre class="r"><code>#For loop to find the average of every player&#39;s oppoent players&#39; pre chess ratings
+</div>
+<div id="average-of-pre-tournament-opponents-ratings" class="section level3">
+<h3>Average of pre-tournament opponents’ ratings</h3>
+<pre class="r"><code>#Average of every player&#39;s oppoent players&#39; pre chess ratings
 oppoPreRatingAvg &lt;- length(name)
 for (i in 1:length(name)) 
 { 
   oppoPreRatingAvg[i] &lt;- round(mean(preRating[as.numeric(unlist(opponentId[playerId[i]]))]), digits = 0)
 }</code></pre>
-<p>###Constructing dataset</p>
+</div>
+<div id="constructing-dataset" class="section level3">
+<h3>Constructing dataset</h3>
 <pre class="r"><code>df &lt;- data_frame(playerName, playerState, totalPoint, preRating, oppoPreRatingAvg)</code></pre>
 <pre><code>## Warning: `data_frame()` was deprecated in tibble 1.1.0.
 ## Please use `tibble()` instead.</code></pre>
@@ -496,10 +510,16 @@ kable(head(df))</code></pre>
 </tr>
 </tbody>
 </table>
-<p>###Exporting to .csv</p>
+</div>
+<div id="exporting-to-.csv" class="section level3">
+<h3>Exporting to .csv</h3>
 <pre class="r"><code>#Exporting in working directory
 write.table(df, file = &quot;tournamentInfo_cleaned.csv&quot;,row.names=FALSE, na=&quot;&quot;,col.names=TRUE, sep=&quot;,&quot;)</code></pre>
-<p>A copy of this cleaned up .csv file is available at <a href="https://https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/tournamentInfo_cleaned.csv">github.com.</a></p>
+</div>
+<div id="cleaned-up-.csv" class="section level3">
+<h3>Cleaned up .csv</h3>
+<p>(<a href="https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/tournamentInfo_cleaned.csv" class="uri">https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/tournamentInfo_cleaned.csv</a>)</p>
+</div>
 
 
 

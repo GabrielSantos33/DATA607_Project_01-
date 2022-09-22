@@ -1,15 +1,17 @@
 ---
 title: "DATA607_project01"
 author: "Gabriel Santos"
-date: '2022-09-14'
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
 
-###Project description
-The project description can be found on [github.com.](https://https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/Project%201.pdf)
+### Project description
 
-###Environment setup
+(https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/Project%201.pdf)
+
+
+### Environment setup
 ```{r}
 #Loading packages
 library(stringr)
@@ -18,14 +20,14 @@ library(dplyr)
 library(readr)
 ```
 
-###Importing data
+### Importing data
 ```{r}
-#Reading the dataset from github
+#Reading the dataset
 chessText <- read.csv(paste0("https://raw.githubusercontent.com/GabrielSantos33/DATA607_Project_01-/main/tournamentinfo_uncleaned.txt"))
 head(chessText)
 ```
 
-###Cleaning data
+### Cleaning data
 ```{r}
 #Removing the column header
 cleanData <-chessText[-c(1:2),]
@@ -41,9 +43,9 @@ rating<-cleanData[seq(3, length(cleanData), 3)]
 head(rating,3)
 ```
 
-###Relevant data extraction
+### Relevant data extraction
 ```{r}
-#Applying data transformation
+#Applying data-transformation
 playerId <- c(1:64)
 playerName <- str_trim(str_extract(name, "(\\w+\\s){2,3}"))
 totalPoint <- as.numeric(str_extract(name, "\\d.\\d"))
@@ -52,9 +54,9 @@ playerState <- str_extract(rating, "\\w\\w")
 opponentId <- str_extract_all(str_extract_all(name, "\\d+\\|"), "\\d+")
 ```
 
-###Average of pre-tournament opponents' ratings
+### Average of pre-tournament opponents' ratings
 ```{r}
-#For loop to find the average of every player's oppoent players' pre chess ratings
+#Average of every player's oppoent players' pre chess ratings
 oppoPreRatingAvg <- length(name)
 for (i in 1:length(name)) 
 { 
@@ -62,16 +64,17 @@ for (i in 1:length(name))
 }
 ```
 
-###Constructing dataset
+### Constructing dataset
 ```{r}
 df <- data_frame(playerName, playerState, totalPoint, preRating, oppoPreRatingAvg)
 colnames(df) <-  c("Player's Name", "Player's State", "Total Number of Points", "Player's Pre-Rating", "Opponents' Average Ratings")
 kable(head(df))
 ```
 
-###Exporting to .csv
+### Exporting to .csv
 ```{r}
 #Exporting in working directory
 write.table(df, file = "tournamentInfo_cleaned.csv",row.names=FALSE, na="",col.names=TRUE, sep=",")
 ```
-A copy of this cleaned up .csv file is available at [github.com.](https://https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/tournamentInfo_cleaned.csv)
+### Cleaned up .csv
+(https://github.com/GabrielSantos33/DATA607_Project_01-/blob/main/tournamentInfo_cleaned.csv)
